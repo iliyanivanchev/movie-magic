@@ -17,8 +17,11 @@ router.post('/create', (req, res) => {
 router.get('/movies/:movieId', (req, res) => {
     const movieId = req.params.movieId
     const movie = movieService.getOne(movieId);
-    console.log(movie);
-    res.render('details', { movie });
+    //TODO: This is not perfect, use handlebars helpers
+    movie.ratingStar = new Array(Number(movie.rating)).fill(true); //1st variant
+    //movie.ratingStar = `&#x2605; `.repeat(Number(movie.rating)); // 2nd variant
+
+    res.render('details',  { movie } );
 });
 
 module.exports = router;
