@@ -1,6 +1,6 @@
 const movies = [{
     _id: 1,
-    title: 'Jungle Cuise',
+    title: 'Jungle Cruise',
     genre: 'Adventure',
     director: 'Spilberg',
     year: '2019',
@@ -13,6 +13,21 @@ exports.getAll = () => {
     return movies.slice();
     //return [...movies];
     //return Array.from(movies);
+};
+
+exports.search = (title, genre, year) => {
+    let moviesResult = movies.slice();
+
+    if (title) {
+        moviesResult = moviesResult.filter(movie => movie.title.toLowerCase().includes(title.toLowerCase()));
+    }
+    if (genre) {
+        moviesResult = moviesResult.filter(movie => movie.genre.toLowerCase() === genre.toLowerCase());
+    }
+    if (year) {
+        moviesResult = moviesResult.filter(movie => movie.year === year);
+    }
+    return moviesResult;
 };
 
 exports.getOne = (movieId) => {
