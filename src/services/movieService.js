@@ -3,19 +3,24 @@ const Cast = require('../models/Cast');
 
 exports.getAll = () => Movie.find();
 
-exports.search = async (title, genre, year) => {
-    let moviesResult = await Movie.find().lean();
-
+exports.search = (title, genre, year) => {
+    let query = {};
+    //let query2 = Movie.find();
+    
     if (title) {
-        moviesResult = moviesResult.filter(movie => movie.title.toLowerCase().includes(title.toLowerCase()));
+        query.title = new RegExp(title, 'i');
+        //query2.title = query2.find({ title: new RegExp(title, 'i')});
     }
     if (genre) {
-        moviesResult = moviesResult.filter(movie => movie.genre.toLowerCase() === genre.toLowerCase());
+        query.genre = genre.toLowerCase();
     }
     if (year) {
-        moviesResult = moviesResult.filter(movie => movie.year == year);
+        query.year = year;
+        //query2 = query2.find({ year});
     }
-    return moviesResult;
+
+    return Movie.find(query);
+    //return query2
 };
 
 exports.getOne = (movieId) => Movie.findById(movieId).populate('casts');
