@@ -27,6 +27,8 @@ exports.getOne = (movieId) => Movie.findById(movieId).populate('casts');
 
 exports.create = (movieData) => Movie.create(movieData);
 
+exports.edit = (movieId, movieData) => Movie.findByIdAndUpdate(movieId, movieData);
+
 exports.attach = async (movieId, castId) => {
 
     //This is optional and we dont need it in this case
@@ -42,4 +44,6 @@ exports.attach = async (movieId, castId) => {
 
     // return movie.save();
     return Movie.findByIdAndUpdate(movieId, {$push: {casts: castId}})
-}
+};
+
+exports.delete = (movieId) => Movie.findByIdAndDelete(movieId);
