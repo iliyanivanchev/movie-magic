@@ -21,7 +21,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.get('/movies/:movieId', async (req, res) => {
-    const movieId = req.params.movieId
+    const movieId = req.params.movieId;
     const movie = await movieService.getOne(movieId).lean();
     // const casts = await castService.getByIds(movie.casts).lean();
 
