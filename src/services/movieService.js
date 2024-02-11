@@ -18,7 +18,7 @@ exports.search = (title, genre, year) => {
         query.year = year;
         //query2 = query2.find({ year});
     }
-
+    
     return Movie.find(query);
     //return query2
 };

@@ -25,6 +25,11 @@ const movieSchema = new mongoose.Schema({
         min: 1900,
         max: 2024,
     },
+    imageUrl: {
+        type: String,
+        required: true,
+        match: /^https?:\/\//
+    },
     rating: {
         type: Number,
         required: true,
@@ -36,11 +41,6 @@ const movieSchema = new mongoose.Schema({
         required: true,
         manLength: [20, 'description should be atleast 20 characters'],
         match: [/^[a-zA-Z0-9\s]+$/, 'description should be alphanumeric'],
-    },
-    imageUrl: {
-        type: String,
-        required: true,
-        match: /^https?:\/\//
     },
     casts: [{
         type: mongoose.Types.ObjectId,

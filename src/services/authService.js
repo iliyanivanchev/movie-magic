@@ -4,13 +4,13 @@ const jwt = require('../lib/jwt');
 
 const { SECRET } = require('../config/config');
 
-exports.register = (userData) => {
-    const user = User.findOne({ email: userData.email });
+exports.register = async (userData) => {
+    const user = await User.findOne({ email: userData.email });
     if (user) {
         throw new Error('Email already exists');
     };
 
-    return User.create(userData)
+    return User.create(userData);
 };
 
 exports.login = async (email, password) => {
@@ -19,13 +19,13 @@ exports.login = async (email, password) => {
 
     //Check if user exist
     if (!user) {
-        throw new Error('Cannot find email or password');
+        throw new Error('Invalid email or password');
     };
 
     //Check if password is valid
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-        throw new Error('Cannot find email or password');
+        throw new Error('Invalid email or password');
     };
 
     // Generate jwt token

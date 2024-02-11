@@ -3,6 +3,7 @@ const router = require('express').Router();
 const movieService = require('../services/movieService');
 const castService = require('../services/castService');
 const { isAuth } = require('../middlewares/authMiddleware');
+const { getErrorMessage } = require('../utils/errorUtils');
 
 router.get('/create', isAuth, (req, res) => {
     res.render('create');
@@ -19,8 +20,8 @@ router.post('/create', isAuth, async (req, res) => {
 
         res.redirect('/');
     } catch (err) {
-        console.log(err.message);
-        res.redirect('/create');
+        const message = getErrorMessage(err);
+        res.render('create', { ...newMovie, error: message });
     }
 });
 
@@ -28,7 +29,7 @@ router.get('/movies/:movieId', async (req, res) => {
     const movieId = req.params.movieId;
     const movie = await movieService.getOne(movieId).lean();
     const isOwner = movie.owner && movie.owner == req.user?._id;
-    
+
     //TODO: This is not perfect, use handlebars helpers
     movie.ratingStar = new Array(Number(movie.rating)).fill(true); //1st variant
     //movie.ratingStar = `&#x2605; `.repeat(Number(movie.rating)); // 2nd variant
